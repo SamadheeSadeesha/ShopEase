@@ -1,24 +1,60 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "../src/services/firebaseConfig";
+import { Stack, SplashScreen } from "expo-router";
+import { View } from "react-native";
+import "./global.css";
+import { useFonts } from "expo-font";
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+// Prevent auto-hiding the splash screen
+SplashScreen.preventAutoHideAsync();
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+export default function Layout() {
+  const [initializing, setInitializing] = useState(true);
+  const [appReady, setAppReady] = useState(false);
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [fontsLoaded] = useFonts({
+    "Poppins-Bold": require('../assets/fonts/Poppins-Bold.ttf'),
+    "Poppins-ExtraBold": require('../assets/fonts/Poppins-ExtraBold.ttf'),
+    "Poppins-Light": require('../assets/fonts/Poppins-Light.ttf'),
+    "Poppins-Medium": require('../assets/fonts/Poppins-Medium.ttf'),
+    "Poppins-Regular": require('../assets/fonts/Poppins-Regular.ttf'),
+    "Poppins-SemiBold": require('../assets/fonts/Poppins-SemiBold.ttf'),
+  });
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
+      setInitializing(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (fontsLoaded && !initializing) {
+      setAppReady(true);
+    }
+  }, [fontsLoaded, initializing]);
+
+  useEffect(() => {
+    if (appReady) {
+      // Hide splash screen once everything is ready
+      SplashScreen.hideAsync();
+    }
+  }, [appReady]);
+
+  if (!appReady) {
+    return null; // Keep splash screen visible
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" options={{ title: "Home" }} />
+      <Stack.Screen name="login" options={{ title: "Login" }} />
+      <Stack.Screen name="register" options={{ title: "Register" }} />
+      <Stack.Screen name="products" options={{ title: "Products" }} />
+      <Stack.Screen name="cart" options={{ title: "Cart" }} />
+      <Stack.Screen name="checkout" options={{ title: "Checkout" }} />
+      <Stack.Screen name="success" options={{ title: "Success" }} />
+    </Stack>
   );
 }
