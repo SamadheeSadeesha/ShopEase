@@ -20,14 +20,14 @@ module.exports = {
         200: '#BA1D841A',
         300: '#BA1D842A'
       },
-      accent: {
-        100: '#FBFBFD',
-      },
       black: {
         DEFAULT: '#000000',
         100: '#8C8E98',
         200: '#666876',
-        300: '#191d31',
+        300: '#191d31'
+      },
+      white: {
+        DEFAULT: '#FFFFFF'
       },
       danger: '#F75555'
     }

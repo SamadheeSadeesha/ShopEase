@@ -4,13 +4,13 @@ import { router } from "expo-router";
 import { signOut } from "firebase/auth";
 import React from "react";
 import {
-    Alert,
-    Image,
-    ImageSourcePropType,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  ImageSourcePropType,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth } from "../../../src/services/firebaseConfig";
@@ -63,14 +63,13 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView className="h-full bg-accent-100">
+    <SafeAreaView className="h-full bg-white">
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerClassName="pb-32 px-7"
       >
         <View className="flex flex-row items-center justify-between mt-5">
           <Text className="text-xl font-poppins-bold">Profile</Text>
-          <Image source={icons.bell} className="size-5" />
         </View>
 
         <View className="flex-row justify-center flex mt-5">
@@ -79,7 +78,7 @@ const Profile = () => {
               source={images.avatar}
               className="size-44 relative rounded-full"
             />
-            <Text className="text-2xl font-poppins-bold mt-10">
+            <Text className="text-xl font-poppins-bold mt-10">
               Samadhee Samarasinghe
             </Text>
           </View>

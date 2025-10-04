@@ -1,8 +1,8 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
-import { Product } from '@/types/product';
 import icons from '@/constants/icons';
 import { useCart } from '@/src/context/cartContext';
+import { Product } from '@/types/product';
+import { router } from 'expo-router';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 interface CardProps {
   product: Product;
@@ -24,7 +24,8 @@ export const Card = ({ product }: CardProps) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
-      className='flex-1 bg-accent-100 rounded-2xl border border-primary-100 p-3 mb-5'
+      className='flex-1 rounded-2xl border p-3 mb-5'
+      style={{borderWidth: 1, borderColor: '#C996BD'}}
     >
       <Image 
         source={{ uri: product.thumbnail }} 
@@ -79,7 +80,8 @@ export const FeaturedCard = ({ product }: CardProps) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
-      className='w-64 bg-accent-100 rounded-2xl border border-primary-100 p-3'
+      className='w-64 rounded-2xl border p-3'
+      style={{borderWidth: 1, borderColor: '#C996BD'}}
     >
       <View className='relative'>
         <Image 
@@ -90,7 +92,7 @@ export const FeaturedCard = ({ product }: CardProps) => {
         
         {product.discountPercentage > 0 && (
           <View className='absolute top-2 right-2 bg-primary-100 rounded-full px-2 py-2'>
-            <Text className='text-xs font-poppins-bold text-accent-100'>
+            <Text className='text-xs font-poppins-bold text-white'>
               -{product.discountPercentage.toFixed(0)}%
             </Text>
           </View>

@@ -132,7 +132,7 @@ export default function Products() {
 
   if (loading) {
     return (
-      <SafeAreaView className="bg-accent-100 h-full">
+      <SafeAreaView className="bg-white h-full">
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#BA1D84" />
           <Text className="mt-4 text-base font-poppins text-black-300">
@@ -150,7 +150,7 @@ export default function Products() {
   }
 
   return (
-    <SafeAreaView className="bg-accent-100 h-full">
+    <SafeAreaView className="bg-white h-full">
       <FlatList
         data={paddedProducts}
         renderItem={({ item }) => {
@@ -173,7 +173,7 @@ export default function Products() {
           <View className="px-5">
             {/* Page Title */}
             <View className="mt-5 mb-3">
-              <Text className="text-2xl font-poppins-bold text-black-300">
+              <Text className="text-xl font-poppins-bold text-black-300">
                 All Products
               </Text>
             </View>
@@ -203,7 +203,7 @@ export default function Products() {
                   <Text
                     className={`font-poppins-semibold ${
                       selectedCategory === "all"
-                        ? "text-accent-100"
+                        ? "text-white"
                         : "text-black-300"
                     }`}
                   >
@@ -225,7 +225,7 @@ export default function Products() {
                     <Text
                       className={`font-poppins-semibold capitalize ${
                         selectedCategory === category.slug
-                          ? "text-accent-100"
+                          ? "text-white"
                           : "text-black-300"
                       }`}
                     >

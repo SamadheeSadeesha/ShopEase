@@ -46,3 +46,6 @@ app-example
 # Firebase config
 src/services/firebaseConfig.ts
 
+stripe-server/.env
+stripe-server/node_modules/
+

@@ -40,7 +40,7 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <SafeAreaView className="bg-accent-100 h-full">
+      <SafeAreaView className="bg-white h-full">
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#BA1D84" />
         </View>
@@ -50,7 +50,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <SafeAreaView className="bg-accent-100 h-full">
+      <SafeAreaView className="bg-white h-full">
         <View className="flex-1 justify-center items-center">
           <Text className="text-base font-poppins text-black-300">Product not found</Text>
         </View>
@@ -59,7 +59,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <SafeAreaView className="bg-accent-100 h-full">
+    <SafeAreaView className="bg-white h-full">
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View className="flex flex-row items-center justify-between px-5 mt-5">
@@ -114,7 +114,7 @@ export default function ProductDetail() {
             className="bg-primary-100 rounded-2xl py-4 items-center"
             onPress={handleAddToCart}
           >
-            <Text style={{ color: '#FFFFFF' }} className="text-lg font-poppins-bold">
+            <Text className="text-lg font-poppins-bold text-white">
               Add to Cart
             </Text>
           </TouchableOpacity>

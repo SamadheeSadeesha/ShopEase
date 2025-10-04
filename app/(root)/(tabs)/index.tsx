@@ -1,10 +1,9 @@
-import { FeaturedCard } from "@/components/Cards";
-import { Card } from "@/components/Cards";
+import { Card, FeaturedCard } from "@/components/Cards";
 import Search from "@/components/Search";
 import images from "@/constants/images";
 import { fetchProducts } from "@/src/services/productService";
 import { Product, ProductResponse } from "@/types/product";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -17,7 +16,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
 
 interface Category {
   slug: string;
@@ -104,7 +102,7 @@ export default function Index() {
 
   if (loading) {
     return (
-      <SafeAreaView className="bg-accent-100 h-full">
+      <SafeAreaView className="bg-white h-full">
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#BA1D84" />
           <Text className="mt-4 text-base font-poppins text-black-300">
@@ -116,7 +114,7 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView className="bg-accent-100 h-full">
+    <SafeAreaView className="bg-white h-full">
       <FlatList
         data={products}
         renderItem={({ item }) => <Card product={item} />}
@@ -133,9 +131,9 @@ export default function Index() {
               <View className="flex flex-row items-center">
                 <Image
                   source={images.avatar}
-                  className="size-14 rounded-full"
+                  className="size-14 rounded-full border border-black-100"
                 />
-                <View className="flex flex-col items-start ml-2 justify-center">
+                <View className="flex flex-col items-start ml-4 justify-center">
                   <Text className="text-xl font-poppins-semibold text-black-300">
                     Hello
                   </Text>
@@ -189,7 +187,7 @@ export default function Index() {
                   <Text
                     className={`font-poppins-semibold ${
                       selectedCategory === "all"
-                        ? "text-accent-100"
+                        ? "text-white"
                         : "text-black-300"
                     }`}
                   >
@@ -210,7 +208,7 @@ export default function Index() {
                     <Text
                       className={`font-poppins-semibold capitalize ${
                         selectedCategory === category.slug
-                          ? "text-accent-100"
+                          ? "text-white"
                           : "text-black-300"
                       }`}
                     >
@@ -228,7 +226,7 @@ export default function Index() {
               className="bg-primary-100 rounded-2xl py-4 mt-8 mb-6 items-center"
               onPress={() => router.push("/products")}
             >
-              <Text className="text-accent-100 text-lg font-poppins-bold">
+              <Text className="text-lg font-poppins-bold text-white">
                 Browse All Products
               </Text>
             </TouchableOpacity>

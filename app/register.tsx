@@ -31,7 +31,7 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-accent-100">
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Image
           source={require("../assets/images/icon.png")}

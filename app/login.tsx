@@ -1,18 +1,18 @@
+import { useRouter } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  ScrollView,
   Image,
-  TouchableOpacity,
   Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../src/services/firebaseConfig";
-import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { auth } from "../src/services/firebaseConfig";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-accent-100">
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Image
           source={require("../assets/images/icon.png")}
