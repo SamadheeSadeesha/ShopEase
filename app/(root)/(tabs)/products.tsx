@@ -1,11 +1,19 @@
-import { Text, View, FlatList, ActivityIndicator, Alert, TouchableOpacity, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from "react";
-import { useLocalSearchParams } from "expo-router";
-import Search from "@/components/search";
 import { Card } from "@/components/Cards";
-import { Product, ProductResponse } from "@/types/product";
+import Search from "@/components/Search";
 import { fetchProducts } from "@/src/services/productService";
+import { Product, ProductResponse } from "@/types/product";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Category {
   slug: string;
@@ -42,7 +50,7 @@ export default function Products() {
 
   const loadCategories = async () => {
     try {
-      const response = await fetch('https://dummyjson.com/products/categories');
+      const response = await fetch("https://dummyjson.com/products/categories");
       const data: Category[] = await response.json();
       setCategories(data);
     } catch (error) {
@@ -83,9 +91,9 @@ export default function Products() {
     try {
       setLoadingMore(true);
       const data: ProductResponse = await fetchProducts(LIMIT, skip);
-      
-      setProducts(prev => [...prev, ...data.products]);
-      setSkip(prev => prev + LIMIT);
+
+      setProducts((prev) => [...prev, ...data.products]);
+      setSkip((prev) => prev + LIMIT);
       setHasMore(skip + data.products.length < data.total);
     } catch (error) {
       Alert.alert("Error", "Failed to load more products.");
@@ -135,14 +143,25 @@ export default function Products() {
     );
   }
 
+  // Pad products array to ensure even number for 2-column layout
+  const paddedProducts = [...products];
+  if (paddedProducts.length % 2 !== 0) {
+    paddedProducts.push({ id: "empty", isEmpty: true } as any);
+  }
+
   return (
     <SafeAreaView className="bg-accent-100 h-full">
       <FlatList
-        data={products}
-        renderItem={({ item }) => <Card product={item} />}
+        data={paddedProducts}
+        renderItem={({ item }) => {
+          if ('isEmpty' in item) {
+            return <View style={{ flex: 1 }} />;
+          }
+          return <Card product={item} />;
+        }}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
-        contentContainerClassName="pb-2"
+        contentContainerClassName="pb-12"
         columnWrapperClassName="flex gap-5 px-5"
         showsVerticalScrollIndicator={false}
         onEndReached={loadMoreProducts}
@@ -175,13 +194,17 @@ export default function Products() {
                 {/* All Products Category */}
                 <TouchableOpacity
                   className={`px-4 py-2 rounded-full ${
-                    selectedCategory === "all" ? "bg-primary-100" : "bg-primary-300"
+                    selectedCategory === "all"
+                      ? "bg-primary-100"
+                      : "bg-primary-300"
                   }`}
                   onPress={() => handleCategoryPress("all")}
                 >
                   <Text
                     className={`font-poppins-semibold ${
-                      selectedCategory === "all" ? "text-accent-100" : "text-black-300"
+                      selectedCategory === "all"
+                        ? "text-accent-100"
+                        : "text-black-300"
                     }`}
                   >
                     All
@@ -218,8 +241,8 @@ export default function Products() {
                 {selectedCategory === "all"
                   ? `Showing ${products.length} products`
                   : `${products.length} products in ${
-                      categories.find((c) => c.slug === selectedCategory)?.name ||
-                      selectedCategory
+                      categories.find((c) => c.slug === selectedCategory)
+                        ?.name || selectedCategory
                     }`}
               </Text>
             </View>

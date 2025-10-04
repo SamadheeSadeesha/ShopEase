@@ -54,7 +54,7 @@ export default function ProductDetail() {
         {/* Header */}
         <View className="flex flex-row items-center justify-between px-5 mt-5">
           <TouchableOpacity onPress={() => router.back()}>
-            <Image source={icons.backArrow} className="size-6" />
+            <Image source={icons.backArrow} className="size-6" style={{tintColor: '#BA1D84'}} />
           </TouchableOpacity>
           <Text className="text-xl font-poppins-bold">Product Details</Text>
           <View className="size-6" />

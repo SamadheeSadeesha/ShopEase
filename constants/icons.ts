@@ -17,6 +17,7 @@ import search from "@/assets/icons/search.png";
 import send from "@/assets/icons/send.png";
 import star from "@/assets/icons/star.png";
 import user from "@/assets/icons/user.png";
+import add from "@/assets/icons/add.png";
 
 export default {
   home,
@@ -37,5 +38,6 @@ export default {
   edit,
   products,
   cart,
-  user
+  user,
+  add
 };

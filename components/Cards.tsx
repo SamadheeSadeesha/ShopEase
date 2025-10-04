@@ -16,7 +16,7 @@ export const Card = ({ product }: CardProps) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
-      className='flex-1 bg-white rounded-lg border border-primary-100 p-3 mb-5'
+      className='flex-1 bg-accent-100 rounded-lg border border-primary-100 p-3 mb-5'
     >
       <Image 
         source={{ uri: product.thumbnail }} 
@@ -44,13 +44,13 @@ export const Card = ({ product }: CardProps) => {
         </Text>
         
         <TouchableOpacity 
-          className='bg-primary-100 rounded-full p-2'
+          className='rounded-full p-2'
           onPress={(e) => {
             e.stopPropagation();
             // Add to cart logic here
           }}
         >
-          <Image source={icons.cart} className='size-4 tint-white' />
+          <Image source={icons.add} className='size-6' style={{tintColor: '#BA1D84'}} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -67,7 +67,7 @@ export const FeaturedCard = ({ product }: CardProps) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
-      className='w-64 bg-white rounded-lg border border-primary-100 p-3'
+      className='w-64 bg-accent-100 rounded-lg border border-primary-100 p-3'
     >
       <View className='relative'>
         <Image 
@@ -112,13 +112,13 @@ export const FeaturedCard = ({ product }: CardProps) => {
         </View>
         
         <TouchableOpacity 
-          className='bg-primary-100/60 rounded-full p-2'
+          className='rounded-full p-2'
           onPress={(e) => {
             e.stopPropagation();
             // Add to cart logic here
           }}
         >
-          <Image source={icons.cart} className='size-4' />
+          <Image source={icons.add} className='size-6' style={{tintColor: '#BA1D84'}} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
