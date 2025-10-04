@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-accent-100">
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Image
           source={require("../assets/images/icon.png")}

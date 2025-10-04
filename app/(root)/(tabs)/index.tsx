@@ -225,10 +225,10 @@ export default function Index() {
         ListFooterComponent={
           <View className="px-5 mb-12">
             <TouchableOpacity
-              className="bg-primary-100 rounded-xl py-4 mt-8 mb-6 items-center"
+              className="bg-primary-100 rounded-2xl py-4 mt-8 mb-6 items-center"
               onPress={() => router.push("/products")}
             >
-              <Text className="text-accent-100 text-base font-poppins-bold">
+              <Text className="text-accent-100 text-lg font-poppins-bold">
                 Browse All Products
               </Text>
             </TouchableOpacity>

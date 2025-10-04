@@ -2,12 +2,20 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Product } from '@/types/product';
 import icons from '@/constants/icons';
+import { useCart } from '@/src/context/cartContext';
 
 interface CardProps {
   product: Product;
 }
 
 export const Card = ({ product }: CardProps) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e: any) => {
+    e.stopPropagation();
+    addToCart(product);
+  };
+
   const handlePress = () => {
     // Navigate to product detail page
     router.push(`/product/${product.id}`);
@@ -16,7 +24,7 @@ export const Card = ({ product }: CardProps) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
-      className='flex-1 bg-accent-100 rounded-lg border border-primary-100 p-3 mb-5'
+      className='flex-1 bg-accent-100 rounded-2xl border border-primary-100 p-3 mb-5'
     >
       <Image 
         source={{ uri: product.thumbnail }} 
@@ -45,10 +53,7 @@ export const Card = ({ product }: CardProps) => {
         
         <TouchableOpacity 
           className='rounded-full p-2'
-          onPress={(e) => {
-            e.stopPropagation();
-            // Add to cart logic here
-          }}
+          onPress={handleAddToCart}
         >
           <Image source={icons.add} className='size-6' style={{tintColor: '#BA1D84'}} />
         </TouchableOpacity>
@@ -58,6 +63,13 @@ export const Card = ({ product }: CardProps) => {
 };
 
 export const FeaturedCard = ({ product }: CardProps) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e: any) => {
+    e.stopPropagation();
+    addToCart(product);
+  };
+
   const handlePress = () => {
     router.push(`/product/${product.id}`);
   };
@@ -67,7 +79,7 @@ export const FeaturedCard = ({ product }: CardProps) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
-      className='w-64 bg-accent-100 rounded-lg border border-primary-100 p-3'
+      className='w-64 bg-accent-100 rounded-2xl border border-primary-100 p-3'
     >
       <View className='relative'>
         <Image 
@@ -113,10 +125,7 @@ export const FeaturedCard = ({ product }: CardProps) => {
         
         <TouchableOpacity 
           className='rounded-full p-2'
-          onPress={(e) => {
-            e.stopPropagation();
-            // Add to cart logic here
-          }}
+          onPress={handleAddToCart}
         >
           <Image source={icons.add} className='size-6' style={{tintColor: '#BA1D84'}} />
         </TouchableOpacity>

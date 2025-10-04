@@ -1,19 +1,19 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  ImageSourcePropType,
-  Alert,
-} from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { signOut } from "firebase/auth";
-import { router } from "expo-router";
-import { auth } from "../../../src/services/firebaseConfig";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
+import { router } from "expo-router";
+import { signOut } from "firebase/auth";
+import React from "react";
+import {
+    Alert,
+    Image,
+    ImageSourcePropType,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { auth } from "../../../src/services/firebaseConfig";
 
 interface SettingItemProps {
   icon: ImageSourcePropType;
@@ -63,7 +63,7 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView className="h-full bg-white">
+    <SafeAreaView className="h-full bg-accent-100">
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerClassName="pb-32 px-7"

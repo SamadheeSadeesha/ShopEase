@@ -1,15 +1,17 @@
-import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import { useLocalSearchParams, router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useEffect } from 'react';
-import { Product } from '@/types/product';
-import { fetchProductById } from '@/src/services/productService';
 import icons from '@/constants/icons';
+import { useCart } from '@/src/context/cartContext';
+import { fetchProductById } from '@/src/services/productService';
+import { Product } from '@/types/product';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProductDetail() {
   const { id } = useLocalSearchParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     loadProduct();
@@ -28,9 +30,17 @@ export default function ProductDetail() {
     }
   };
 
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product);
+      Alert.alert("Success", `${product.title} added to cart!`);
+      router.push('/(root)/(tabs)/cart')
+    }
+  };
+
   if (loading) {
     return (
-      <SafeAreaView className="bg-white h-full">
+      <SafeAreaView className="bg-accent-100 h-full">
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#BA1D84" />
         </View>
@@ -40,7 +50,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <SafeAreaView className="bg-white h-full">
+      <SafeAreaView className="bg-accent-100 h-full">
         <View className="flex-1 justify-center items-center">
           <Text className="text-base font-poppins text-black-300">Product not found</Text>
         </View>
@@ -49,12 +59,12 @@ export default function ProductDetail() {
   }
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="bg-accent-100 h-full">
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View className="flex flex-row items-center justify-between px-5 mt-5">
           <TouchableOpacity onPress={() => router.back()}>
-            <Image source={icons.backArrow} className="size-6" style={{tintColor: '#BA1D84'}} />
+            <Image source={icons.backArrow} className="size-8" style={{tintColor: '#BA1D84'}} />
           </TouchableOpacity>
           <Text className="text-xl font-poppins-bold">Product Details</Text>
           <View className="size-6" />
@@ -69,6 +79,9 @@ export default function ProductDetail() {
 
         {/* Product Info */}
         <View className="px-5 mt-5">
+          <Text className="text-sm font-poppins text-black-200">
+              {product.brand}
+            </Text>
           <Text className="text-2xl font-poppins-bold text-black-300">
             {product.title}
           </Text>
@@ -76,7 +89,7 @@ export default function ProductDetail() {
           <View className="flex flex-row items-center mt-2">
             <Image source={icons.star} className="size-4 mr-1" />
             <Text className="text-sm font-poppins text-black-200">
-              {product.rating.toFixed(1)} • {product.brand}
+              {product.rating.toFixed(1)} 
             </Text>
           </View>
 
@@ -98,13 +111,10 @@ export default function ProductDetail() {
         {/* Add to Cart Button */}
         <View className="px-5 mt-10 mb-10">
           <TouchableOpacity 
-            className="bg-primary-100 rounded-lg py-4 items-center"
-            onPress={() => {
-              // Add to cart logic
-              Alert.alert("Success", "Product added to cart!");
-            }}
+            className="bg-primary-100 rounded-2xl py-4 items-center"
+            onPress={handleAddToCart}
           >
-            <Text className="text-accent-100 text-lg font-poppins-bold">
+            <Text style={{ color: '#FFFFFF' }} className="text-lg font-poppins-bold">
               Add to Cart
             </Text>
           </TouchableOpacity>

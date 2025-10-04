@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../src/services/firebaseConfig";
 import { Stack, SplashScreen } from "expo-router";
-import { View } from "react-native";
 import "./global.css";
 import { useFonts } from "expo-font";
+import { CartProvider } from "@/src/context/cartContext";
 
 // Prevent auto-hiding the splash screen
 SplashScreen.preventAutoHideAsync();
@@ -47,7 +47,8 @@ export default function Layout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <CartProvider>
+      <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" options={{ title: "Home" }} />
       <Stack.Screen name="login" options={{ title: "Login" }} />
       <Stack.Screen name="register" options={{ title: "Register" }} />
@@ -56,5 +57,7 @@ export default function Layout() {
       <Stack.Screen name="checkout" options={{ title: "Checkout" }} />
       <Stack.Screen name="success" options={{ title: "Success" }} />
     </Stack>
+    </CartProvider>
+    
   );
 }
