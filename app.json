@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ecommerceapp",
+    "scheme": "shopease",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ecommerceapp",
+      "bundleIdentifier": "com.tulu.shopease",
       "splash": {
         "image": "./assets/images/icon.png",
         "resizeMode": "contain",
@@ -27,7 +27,7 @@
         "backgroundColor": "#BA1D84",
         "foregroundImage": "./assets/images/icon.png"
       },
-      "package": "com.ecommerceapp",
+      "package": "com.tulu.shopease",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "splash": {

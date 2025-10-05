@@ -52,7 +52,7 @@ const Checkout = () => {
         await fetchPaymentSheetParams();
 
       const { error } = await initPaymentSheet({
-        merchantDisplayName: "TuluTech Store",
+        merchantDisplayName: "ShopEase Store",
         customerId: customer,
         customerEphemeralKeySecret: ephemeralKey,
         paymentIntentClientSecret: paymentIntent,
@@ -121,7 +121,7 @@ const Checkout = () => {
   return (
     <TouchableOpacity
       style={{ backgroundColor: "#BA1D84" }}
-      className="rounded-full py-4 items-center"
+      className="rounded-2xl py-4 items-center"
       onPress={openPaymentSheet}
       disabled={loading || !ready}
     >
@@ -129,7 +129,7 @@ const Checkout = () => {
         <ActivityIndicator color="#FFFFFF" />
       ) : (
         <Text className="text-lg font-poppins-bold text-white">
-          {ready ? "Proceed to Checkout" : "Loading..."}
+          {ready ? "Continue to Payment" : "Loading..."}
         </Text>
       )}
     </TouchableOpacity>

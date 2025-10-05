@@ -34,7 +34,6 @@ export default function ProductDetail() {
     if (product) {
       addToCart(product);
       Alert.alert("Success", `${product.title} added to cart!`);
-      router.push('/(root)/(tabs)/cart')
     }
   };
 

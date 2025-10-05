@@ -43,37 +43,18 @@ export default function Success() {
               ✓ Order is being processed
             </Text>
           </View>
-          
-          <View>
-            <Text className="text-sm font-poppins text-black-200">
-              ✓ You'll receive a confirmation email shortly
-            </Text>
-          </View>
         </View>
 
         {/* Action Buttons */}
         <TouchableOpacity
           style={{ backgroundColor: "#BA1D84" }}
-          className="rounded-full py-4 px-8 mb-4 w-full"
-          onPress={() => router.push("/(root)/(tabs)")}
+          className="rounded-2xl py-4 px-8 mb-4 w-full"
+          onPress={() => router.push("/(root)/(tabs)/products")}
         >
           <Text 
             className="text-base font-poppins-semibold text-center text-white"
           >
             Continue Shopping
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="rounded-full py-4 px-8 w-full"
-          style={{ borderWidth: 2, borderColor: '#BA1D84' }}
-          onPress={() => router.push("/(root)/(tabs)/products")}
-        >
-          <Text 
-            style={{ color: "#BA1D84" }} 
-            className="text-base font-poppins-semibold text-center"
-          >
-            View All Products
           </Text>
         </TouchableOpacity>
       </View>
