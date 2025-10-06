@@ -19,6 +19,7 @@ import star from "@/assets/icons/star.png";
 import user from "@/assets/icons/user.png";
 import add from "@/assets/icons/add.png";
 import close from "@/assets/icons/close.png"
+import check from "@/assets/icons/check.png"
 
 export default {
   home,
@@ -41,5 +42,6 @@ export default {
   cart,
   user,
   add,
-  close
+  close,
+  check
 };

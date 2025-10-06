@@ -34,6 +34,23 @@ export default function Products() {
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const LIMIT = 30;
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Add search query effect
+  useEffect(() => {
+    if (params.query) {
+      setSearchQuery(params.query as string);
+    } else {
+      setSearchQuery("");
+    }
+  }, [params.query]);
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Load initial data
   useEffect(() => {
@@ -143,18 +160,18 @@ export default function Products() {
     );
   }
 
-  // Pad products array to ensure even number for 2-column layout
-  const paddedProducts = [...products];
+  const paddedProducts = [...filteredProducts];
   if (paddedProducts.length % 2 !== 0) {
     paddedProducts.push({ id: "empty", isEmpty: true } as any);
   }
 
+  // Main return with FlatList
   return (
     <SafeAreaView className="bg-white h-full">
       <FlatList
         data={paddedProducts}
         renderItem={({ item }) => {
-          if ('isEmpty' in item) {
+          if ("isEmpty" in item) {
             return <View style={{ flex: 1 }} />;
           }
           return <Card product={item} />;
@@ -169,81 +186,109 @@ export default function Products() {
         refreshing={refreshing}
         onRefresh={onRefresh}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={
+        searchQuery ? (
+          <View className="px-5 py-10 items-center">
+            <Text className="text-xl font-poppins-bold text-black-300 mb-2">
+              No products found
+            </Text>
+            <Text className="text-base font-poppins text-black-200 text-center">
+              Try searching with different keywords
+            </Text>
+          </View>
+        ) : null
+      }
         ListHeaderComponent={
           <View className="px-5">
             {/* Page Title */}
-            <View className="mt-5 mb-3">
+            <View className="mt-5">
               <Text className="text-xl font-poppins-bold text-black-300">
                 All Products
               </Text>
             </View>
 
             {/* Search Bar */}
-            <Search />
+            <Search
+              initialQuery={searchQuery}
+              onQueryChange={(query) => setSearchQuery(query)}
+            />
 
-            {/* Category Filter */}
-            <View className="mt-5">
-              <Text className="text-base font-poppins-semibold text-black-300 mb-3">
-                Filter by Category
-              </Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: 10 }}
-              >
-                {/* All Products Category */}
-                <TouchableOpacity
-                  className={`px-4 py-2 rounded-full ${
-                    selectedCategory === "all"
-                      ? "bg-primary-100"
-                      : "bg-primary-300"
-                  }`}
-                  onPress={() => handleCategoryPress("all")}
-                >
-                  <Text
-                    className={`font-poppins-semibold ${
-                      selectedCategory === "all"
-                        ? "text-white"
-                        : "text-black-300"
-                    }`}
-                  >
-                    All
+            {searchQuery && (
+              <View className="mt-3">
+                <Text className="text-sm font-poppins text-black-200">
+                  Searching for:{" "}
+                  <Text className="font-poppins-semibold text-primary-100">
+                    {searchQuery}
                   </Text>
-                </TouchableOpacity>
+                </Text>
+              </View>
+            )}
 
-                {/* Category Pills */}
-                {categories.map((category) => (
+            {/* Category Filter - Only show when not searching */}
+            {!searchQuery && (
+              <View className="mt-5">
+                <Text className="text-base font-poppins-semibold text-black-300 mb-3">
+                  Filter by Category
+                </Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{ gap: 10 }}
+                >
                   <TouchableOpacity
-                    key={category.slug}
                     className={`px-4 py-2 rounded-full ${
-                      selectedCategory === category.slug
+                      selectedCategory === "all"
                         ? "bg-primary-100"
                         : "bg-primary-300"
                     }`}
-                    onPress={() => handleCategoryPress(category.slug)}
+                    onPress={() => handleCategoryPress("all")}
                   >
                     <Text
-                      className={`font-poppins-semibold capitalize ${
-                        selectedCategory === category.slug
+                      className={`font-poppins-semibold ${
+                        selectedCategory === "all"
                           ? "text-white"
                           : "text-black-300"
                       }`}
                     >
-                      {category.name}
+                      All
                     </Text>
                   </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
+
+                  {categories.map((category) => (
+                    <TouchableOpacity
+                      key={category.slug}
+                      className={`px-4 py-2 rounded-full ${
+                        selectedCategory === category.slug
+                          ? "bg-primary-100"
+                          : "bg-primary-300"
+                      }`}
+                      onPress={() => handleCategoryPress(category.slug)}
+                    >
+                      <Text
+                        className={`font-poppins-semibold capitalize ${
+                          selectedCategory === category.slug
+                            ? "text-white"
+                            : "text-black-300"
+                        }`}
+                      >
+                        {category.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
 
             <View className="mt-5 mb-3">
               <Text className="text-base font-poppins text-black-200">
-                {selectedCategory === "all"
-                  ? `Showing ${products.length} products`
-                  : `${products.length} products in ${
-                      categories.find((c) => c.slug === selectedCategory)
-                        ?.name || selectedCategory
-                    }`}
+                {searchQuery
+                  ? `${filteredProducts.length} products found`
+                  : selectedCategory === "all"
+                    ? `Showing ${filteredProducts.length} products`
+                    : `${filteredProducts.length} products in ${
+                        categories.find((c) => c.slug === selectedCategory)
+                          ?.name || selectedCategory
+                      }`}
               </Text>
             </View>
           </View>

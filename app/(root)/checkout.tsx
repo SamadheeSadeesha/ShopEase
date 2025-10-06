@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import Payment from "@/components/Payment";
 export default function Checkout() {
   const params = useLocalSearchParams();
   const { clearCart } = useCart();
+  const paymentRef = useRef<any>(null);
 
   const cartItems = params.cartItems
     ? JSON.parse(params.cartItems as string)
@@ -29,11 +30,10 @@ export default function Checkout() {
     address: "",
     city: "",
     postalCode: "",
-    paymentMethod: "card", // 'card' or 'cash'
+    paymentMethod: "card",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isFormValidated, setIsFormValidated] = useState(false);
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -55,35 +55,39 @@ export default function Checkout() {
   };
 
   const handlePlaceOrder = () => {
-    if (validateForm()) {
-      if (formData.paymentMethod === "cash") {
-        // Handle cash on delivery
-        const orderData = {
-          items: cartItems,
-          total: totalAmount,
-          customer: formData,
-          orderDate: new Date().toISOString(),
-          paymentMethod: "cash",
-        };
+    if (!validateForm()) {
+      return;
+    }
 
-        console.log("Order placed:", orderData);
+    if (formData.paymentMethod === "cash") {
+      // Handle cash on delivery
+      const orderData = {
+        items: cartItems,
+        total: totalAmount,
+        customer: formData,
+        orderDate: new Date().toISOString(),
+        paymentMethod: "cash",
+      };
 
-        Alert.alert(
-          "Order Placed!",
-          "Your order has been successfully placed. Pay on delivery.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                clearCart();
-                router.push("/(root)/(tabs)");
-              },
+      console.log("Order placed:", orderData);
+
+      Alert.alert(
+        "Order Placed!",
+        "Your order has been successfully placed. Pay on delivery.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              clearCart();
+              router.push("/(root)/(tabs)");
             },
-          ]
-        );
-      } else {
-        // For card payment, show the payment section
-        setIsFormValidated(true);
+          },
+        ]
+      );
+    } else {
+      // Trigger payment component
+      if (paymentRef.current) {
+        paymentRef.current.processPayment();
       }
     }
   };
@@ -309,24 +313,30 @@ export default function Checkout() {
             </TouchableOpacity>
           </View>
 
-          {/* Place Order / Payment Button */}
-          {isFormValidated && formData.paymentMethod === "card" ? (
-            <View className="mb-8">
-              <Payment />
-            </View>
-          ) : (
-            <TouchableOpacity
-              className="rounded-2xl p-4 mb-8 items-center"
-              style={{ backgroundColor: "#BA1D84" }}
-              onPress={handlePlaceOrder}
-            >
-              <Text className="text-white text-lg font-poppins-bold">
-                {formData.paymentMethod === "card"
-                  ? "Continue to Payment"
-                  : "Place Order"}
-              </Text>
-            </TouchableOpacity>
+          {/* Hidden Payment Component - Always mounted */}
+          {formData.paymentMethod === "card" && (
+            <Payment 
+              ref={paymentRef} 
+              totalAmount={totalAmount}
+              onPaymentComplete={() => {
+                clearCart();
+                router.push("/success");
+              }}
+            />
           )}
+
+          {/* Place Order Button */}
+          <TouchableOpacity
+            className="rounded-2xl p-4 mb-8 items-center"
+            style={{ backgroundColor: "#BA1D84" }}
+            onPress={handlePlaceOrder}
+          >
+            <Text className="text-white text-lg font-poppins-bold">
+              {formData.paymentMethod === "card"
+                ? "Continue to Payment"
+                : "Place Order"}
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </StripeProvider>

@@ -1,20 +1,21 @@
-import { Text, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import { Alert } from "react-native";
 import { useStripe } from "@stripe/stripe-react-native";
-import { useEffect, useState } from "react";
-import { useCart } from "@/src/context/cartContext";
-import { router } from "expo-router";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3000";
 
-const Checkout = () => {
+interface PaymentProps {
+  totalAmount: number;
+  onPaymentComplete: () => void;
+}
+
+const Payment = forwardRef(({ totalAmount, onPaymentComplete }: PaymentProps, ref) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
-  const { getCartTotal, cart, clearCart } = useCart();
-  const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
 
   const fetchPaymentSheetParams = async () => {
     try {
-      const amount = Math.round(getCartTotal() * 100); // Convert to cents
+      const amount = Math.round(totalAmount * 100);
       
       const response = await fetch(`${API_URL}/payment-sheet`, {
         method: "POST",
@@ -31,7 +32,7 @@ const Checkout = () => {
         throw new Error("Failed to fetch payment params");
       }
 
-      const { paymentIntent, ephemeralKey, customer, publishableKey } = 
+      const { paymentIntent, ephemeralKey, customer } = 
         await response.json();
 
       return {
@@ -57,6 +58,7 @@ const Checkout = () => {
         customerEphemeralKeySecret: ephemeralKey,
         paymentIntentClientSecret: paymentIntent,
         allowsDelayedPaymentMethods: true,
+        returnURL: "shopease://stripe-redirect",
         defaultBillingDetails: {
           name: "Customer",
         },
@@ -74,6 +76,7 @@ const Checkout = () => {
     }
   };
 
+  // Initialize payment sheet when component mounts
   useEffect(() => {
     initializePaymentSheet();
   }, []);
@@ -84,56 +87,37 @@ const Checkout = () => {
       return;
     }
 
-    setLoading(true);
-
     try {
       const { error } = await presentPaymentSheet();
 
       if (error) {
-        // Payment failed or was cancelled
         Alert.alert(
           "Payment Failed", 
           error.message || "Payment was cancelled or failed. Please try again."
         );
       } else {
-        // Payment succeeded
         Alert.alert(
           "Success!",
           "Your payment was successful!",
           [
             {
               text: "OK",
-              onPress: () => {
-                clearCart();
-                router.push("/success");
-              },
+              onPress: onPaymentComplete,
             },
           ]
         );
       }
     } catch (error: any) {
       Alert.alert("Error", error.message || "An unexpected error occurred");
-    } finally {
-      setLoading(false);
     }
   };
 
-  return (
-    <TouchableOpacity
-      style={{ backgroundColor: "#BA1D84" }}
-      className="rounded-2xl py-4 items-center"
-      onPress={openPaymentSheet}
-      disabled={loading || !ready}
-    >
-      {loading ? (
-        <ActivityIndicator color="#FFFFFF" />
-      ) : (
-        <Text className="text-lg font-poppins-bold text-white">
-          {ready ? "Continue to Payment" : "Loading..."}
-        </Text>
-      )}
-    </TouchableOpacity>
-  );
-};
+  // Expose processPayment method to parent via ref
+  useImperativeHandle(ref, () => ({
+    processPayment: openPaymentSheet,
+  }));
 
-export default Checkout;
+  return null;
+});
+
+export default Payment;

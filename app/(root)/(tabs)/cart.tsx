@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Cart() {
-  const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } =
+  const { cart, updateQuantity, getCartTotal, clearCart } =
     useCart();
 
   const renderCartItem = ({ item }: any) => (
