@@ -11,8 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Cart() {
-  const { cart, updateQuantity, getCartTotal, clearCart } =
-    useCart();
+  const { cart, updateQuantity, getCartTotal, clearCart } = useCart();
 
   const renderCartItem = ({ item }: any) => (
     <View
@@ -103,7 +102,7 @@ export default function Cart() {
           </Text>
           <TouchableOpacity
             style={{ backgroundColor: "#BA1D84" }}
-            className="rounded-full px-8 py-3"
+            className="rounded-2xl px-8 py-3"
             onPress={() => router.push("/(root)/(tabs)")}
           >
             <Text className="font-poppins-semibold text-white">
@@ -136,7 +135,7 @@ export default function Cart() {
             }
           />
 
-          {/* Cart Summary - Fixed at bottom */}
+          {/* Cart Summary */}
           <View className="bg-white px-5 py-6 border-t border-black-100 mb-12">
             <View className="flex-row justify-between mb-4">
               <Text className="text-base font-poppins text-black-200">

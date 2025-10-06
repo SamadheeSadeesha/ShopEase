@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { router } from "expo-router";
@@ -42,12 +43,22 @@ const SettingsItem = ({
         {title}
       </Text>
     </View>
-
-    {showArrow && <Image source={icons.rightArrow} className="size-5" />}
   </TouchableOpacity>
 );
 
 const Profile = () => {
+  const [userEmail, setUserEmail] = useState<string>("");
+
+  useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (user?.email) {
+      setUserEmail(user.email);
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -79,7 +90,7 @@ const Profile = () => {
               className="size-44 relative rounded-full"
             />
             <Text className="text-xl font-poppins-bold mt-10">
-              Samadhee Samarasinghe
+              {userEmail || "User"}
             </Text>
           </View>
         </View>

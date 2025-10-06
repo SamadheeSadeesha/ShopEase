@@ -46,3 +46,20 @@ app-example
 stripe-server/.env
 stripe-server/node_modules/
 
+google-services.json
+
+# Additional native build artifacts
+*.apk
+*.aab
+*.ipa
+
+# Gradle files (Android)
+.gradle/
+*/build/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+

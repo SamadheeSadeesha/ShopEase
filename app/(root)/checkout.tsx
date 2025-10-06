@@ -1,17 +1,19 @@
-import React, { useState, useRef } from "react";
+import Payment from "@/components/Payment";
+import icons from "@/constants/icons";
+import { useCart } from "@/src/context/cartContext";
+import { StripeProvider } from "@stripe/stripe-react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useRef, useState } from "react";
 import {
-  View,
+  Alert,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Alert,
+  View,
+  Image
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useLocalSearchParams } from "expo-router";
-import { useCart } from "@/src/context/cartContext";
-import { StripeProvider } from "@stripe/stripe-react-native";
-import Payment from "@/components/Payment";
 
 export default function Checkout() {
   const params = useLocalSearchParams();
@@ -142,7 +144,11 @@ export default function Checkout() {
           {/* Header */}
           <View className="flex-row items-center py-4">
             <TouchableOpacity onPress={() => router.back()}>
-              <Text className="text-2xl text-black-300">←</Text>
+              <Image
+                source={icons.backArrow}
+                className="size-8"
+                style={{ tintColor: "#BA1D84" }}
+              />
             </TouchableOpacity>
             <Text className="text-xl font-poppins-bold text-black-300 ml-4">
               Checkout
@@ -150,7 +156,10 @@ export default function Checkout() {
           </View>
 
           {/* Order Summary */}
-          <View className="bg-white rounded-2xl p-4 mb-4 border" style={{ borderColor: '#E5E7EB' }}>
+          <View
+            className="bg-white rounded-2xl p-4 mb-4 border"
+            style={{ borderColor: "#E5E7EB" }}
+          >
             <Text className="text-lg font-poppins-bold text-black-300 mb-3">
               Order Summary
             </Text>
@@ -186,7 +195,10 @@ export default function Checkout() {
           </View>
 
           {/* Contact Information */}
-          <View className="bg-white rounded-2xl p-4 mb-4 border" style={{ borderColor: '#E5E7EB' }}>
+          <View
+            className="bg-white rounded-2xl p-4 mb-4 border"
+            style={{ borderColor: "#E5E7EB" }}
+          >
             <Text className="text-lg font-poppins-bold text-black-300 mb-4">
               Contact Information
             </Text>
@@ -222,7 +234,10 @@ export default function Checkout() {
           </View>
 
           {/* Delivery Address */}
-          <View className="bg-white rounded-2xl p-4 mb-4 border" style={{ borderColor: '#E5E7EB' }}>
+          <View
+            className="bg-white rounded-2xl p-4 mb-4 border"
+            style={{ borderColor: "#E5E7EB" }}
+          >
             <Text className="text-lg font-poppins-bold text-black-300 mb-4">
               Delivery Address
             </Text>
@@ -258,7 +273,10 @@ export default function Checkout() {
           </View>
 
           {/* Payment Method */}
-          <View className="bg-white rounded-2xl p-4 mb-4 border" style={{ borderColor: '#E5E7EB' }}>
+          <View
+            className="bg-white rounded-2xl p-4 mb-4 border"
+            style={{ borderColor: "#E5E7EB" }}
+          >
             <Text className="text-lg font-poppins-bold text-black-300 mb-4">
               Payment Method
             </Text>
@@ -315,8 +333,8 @@ export default function Checkout() {
 
           {/* Hidden Payment Component - Always mounted */}
           {formData.paymentMethod === "card" && (
-            <Payment 
-              ref={paymentRef} 
+            <Payment
+              ref={paymentRef}
               totalAmount={totalAmount}
               onPaymentComplete={() => {
                 clearCart();

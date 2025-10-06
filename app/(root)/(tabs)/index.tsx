@@ -285,9 +285,9 @@ export default function Index() {
         }
         ListFooterComponent={
           filteredProducts.length > 0 ? (
-            <View className="px-5 mb-12">
+            <View className="px-5 mb-10">
               <TouchableOpacity
-                className="bg-primary-100 rounded-2xl py-4 mt-8 mb-6 items-center"
+                className="bg-primary-100 rounded-2xl py-4 mb-6 items-center"
                 onPress={() => router.push("/(root)/(tabs)/products")}
               >
                 <Text className="text-lg font-poppins-bold text-white">
