@@ -4,12 +4,12 @@
     "slug": "shopease",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.svg",
+    "icon": "./assets/images/logo.png",
     "scheme": "shopease",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/logo.svg",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#BA1D84"
     },
@@ -17,7 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.tulu.shopease",
       "splash": {
-        "image": "./assets/images/logo.svg",
+        "image": "./assets/images/logo.png",
         "resizeMode": "contain",
         "backgroundColor": "#BA1D84"
       }
@@ -25,13 +25,13 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#BA1D84",
-        "foregroundImage": "./assets/images/logo.svg"
+        "foregroundImage": "./assets/images/logo.png"
       },
       "package": "com.tulu.shopease",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "splash": {
-        "image": "./assets/images/logo.svg",
+        "image": "./assets/images/logo.png",
         "resizeMode": "contain",
         "backgroundColor": "#BA1D84"
       }
@@ -39,14 +39,14 @@
     "web": {
       "output": "static",
       "bundler": "metro",
-      "favicon": "./assets/images/logo.svg"
+      "favicon": "./assets/images/logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.svg",
+          "image": "./assets/images/logo.png",
           "resizeMode": "contain",
           "backgroundColor": "#BA1D84"
         }
@@ -69,6 +69,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ce937f22-5d89-4c8e-b714-2ad220fc2910"
+      }
     }
   }
 }

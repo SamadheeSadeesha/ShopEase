@@ -33,7 +33,7 @@ export default function Login() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Image
-          source={require("../assets/images/logo.svg")}
+          source={require("../assets/images/logo.png")}
           className="w-[200px] h-[200px]"
           resizeMode="contain"
         />
