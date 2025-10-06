@@ -5,13 +5,14 @@ import { Stack, SplashScreen } from "expo-router";
 import "./global.css";
 import { useFonts } from "expo-font";
 import { CartProvider } from "@/src/context/cartContext";
+import AnimatedSplash from "@/components/AnimatedSplash";
 
 // Prevent auto-hiding the splash screen
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
   const [initializing, setInitializing] = useState(true);
-  const [appReady, setAppReady] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   const [fontsLoaded] = useFonts({
     "Poppins-Bold": require('../assets/fonts/Poppins-Bold.ttf'),
@@ -31,19 +32,16 @@ export default function Layout() {
 
   useEffect(() => {
     if (fontsLoaded && !initializing) {
-      setAppReady(true);
+      SplashScreen.hideAsync();
     }
   }, [fontsLoaded, initializing]);
 
-  useEffect(() => {
-    if (appReady) {
-      // Hide splash screen once everything is ready
-      SplashScreen.hideAsync();
-    }
-  }, [appReady]);
+  if (!fontsLoaded || initializing) {
+    return null;
+  }
 
-  if (!appReady) {
-    return null; // Keep splash screen visible
+  if (showSplash) {
+    return <AnimatedSplash onFinish={() => setShowSplash(false)} />;
   }
 
   return (

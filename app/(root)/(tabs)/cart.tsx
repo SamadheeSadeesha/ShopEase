@@ -57,7 +57,7 @@ export default function Cart() {
 
           {/* Add item subtotal */}
           <Text
-            className="text-lg font-poppins-semibold text-black-300"
+            className="text-xl font-poppins-bold text-black-300"
             style={{ flex: 1, textAlign: "right" }}
           >
             ${(item.price * item.quantity).toFixed(2)}
@@ -143,7 +143,7 @@ export default function Cart() {
                 Subtotal ({cart.reduce((sum, item) => sum + item.quantity, 0)}{" "}
                 items)
               </Text>
-              <Text className="text-xl font-poppins-bold text-primary-100">
+              <Text className="text-2xl font-poppins-bold text-primary-100">
                 ${getCartTotal().toFixed(2)}
               </Text>
             </View>
