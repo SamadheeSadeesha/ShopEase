@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { auth } from "../../../src/services/firebaseConfig";
+import { auth } from "@/src/services/firebaseConfig";
 
 interface SettingItemProps {
   icon: ImageSourcePropType;
