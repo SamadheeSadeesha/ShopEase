@@ -16,7 +16,6 @@ export default {
   star,
   backArrow,
   logout,
-  location,
   products,
   cart,
   user,
