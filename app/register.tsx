@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
   Image,
@@ -96,7 +95,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email.trim(), password);
+      await auth().createUserWithEmailAndPassword(email.trim(), password);
       Alert.alert(
         "Registration Successful!",
         "Your account has been created. Please login to continue.",

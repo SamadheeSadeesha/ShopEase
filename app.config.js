@@ -16,6 +16,7 @@ module.exports = {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.tulu.shopease",
+      googleServicesFile: "./GoogleService-Info.plist", 
       splash: {
         image: "./assets/images/logo-white.png",
         resizeMode: "contain",
@@ -44,6 +45,8 @@ module.exports = {
     },
     plugins: [
       "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth", 
       [
         "expo-splash-screen",
         {

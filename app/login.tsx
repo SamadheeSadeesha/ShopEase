@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
   Image,
@@ -97,7 +96,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email.trim(), password);
+      await auth().signInWithEmailAndPassword(email.trim(), password);
       router.push("/(root)/(tabs)");
     } catch (err: any) {
       const errorMessage = getFirebaseErrorMessage(err.code);

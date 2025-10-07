@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
 import { router } from "expo-router";
-import { signOut } from "firebase/auth";
 import React from "react";
 import {
   Alert,
@@ -50,7 +49,7 @@ const Profile = () => {
   const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
-  const unsubscribe = auth.onAuthStateChanged((user) => {
+  const unsubscribe = auth().onAuthStateChanged((user) => {
     if (user?.email) {
       setUserEmail(user.email);
     }
@@ -61,7 +60,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await auth().signOut();
       Alert.alert("Success", "You have been logged out successfully");
       router.replace("/login");
     } catch (error: any) {

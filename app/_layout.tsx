@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../src/services/firebaseConfig";
 import { Stack, SplashScreen } from "expo-router";
 import "./global.css";
@@ -24,7 +23,7 @@ export default function Layout() {
   });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
+    const unsubscribe = auth().onAuthStateChanged((user) => {
       setInitializing(false);
     });
     return unsubscribe;
