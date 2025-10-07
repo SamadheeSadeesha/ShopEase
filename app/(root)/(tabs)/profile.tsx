@@ -11,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth } from "../../../src/services/firebaseConfig";
@@ -47,29 +48,50 @@ const SettingsItem = ({
 
 const Profile = () => {
   const [userEmail, setUserEmail] = useState<string>("");
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
-  const unsubscribe = auth().onAuthStateChanged((user) => {
-    if (user?.email) {
-      setUserEmail(user.email);
-    }
-  });
+    const unsubscribe = auth().onAuthStateChanged((user) => {
+      if (user?.email) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail("");
+      }
+    });
 
-  return () => unsubscribe();
-}, []);
+    return () => unsubscribe();
+  }, []);
 
   const handleLogout = async () => {
-    try {
-      await auth().signOut();
-      Alert.alert("Success", "You have been logged out successfully");
-      router.replace("/login");
-    } catch (error: any) {
-      Alert.alert(
-        "Error",
-        error.message || "Failed to logout. Please try again"
-      );
-      console.error("Logout error: ", error);
-    }
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Logout",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              setIsLoggingOut(true);
+              await auth().signOut();
+              // Navigation will be handled automatically by the auth state listener in _layout.tsx
+            } catch (error: any) {
+              setIsLoggingOut(false);
+              Alert.alert(
+                "Error",
+                error.message || "Failed to logout. Please try again"
+              );
+              console.error("Logout error: ", error);
+            }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (
@@ -95,13 +117,19 @@ const Profile = () => {
         </View>
 
         <View className="flex flex-col mt-20 pt-5 items-center">
-          <SettingsItem
-            icon={icons.logout}
-            title="Logout"
-            textStyle="text-danger"
-            showArrow={false}
-            onPress={handleLogout}
-          />
+          {isLoggingOut ? (
+            <View className="py-3">
+              <ActivityIndicator size="small" color="#dc2626" />
+            </View>
+          ) : (
+            <SettingsItem
+              icon={icons.logout}
+              title="Logout"
+              textStyle="text-danger"
+              showArrow={false}
+              onPress={handleLogout}
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
