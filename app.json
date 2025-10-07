@@ -28,6 +28,7 @@
         "foregroundImage": "./assets/images/logo-black.png"
       },
       "package": "com.tulu.shopease",
+      "googleServicesFile": "./google-services.json",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "splash": {
