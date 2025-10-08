@@ -5,7 +5,8 @@ import "./global.css";
 import { useFonts } from "expo-font";
 import { CartProvider } from "@/src/context/cartContext";
 import AnimatedSplash from "@/components/AnimatedSplash";
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { initStripe } from "@stripe/stripe-react-native";
 
 // Prevent auto-hiding the splash screen
 SplashScreen.preventAutoHideAsync();
@@ -14,7 +15,8 @@ export default function Layout() {
   const [initializing, setInitializing] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-  
+  const [stripeInitialized, setStripeInitialized] = useState(false);
+
   const router = useRouter();
   const segments = useSegments();
 
@@ -26,6 +28,34 @@ export default function Layout() {
     "Poppins-Regular": require('../assets/fonts/Poppins-Regular.ttf'),
     "Poppins-SemiBold": require('../assets/fonts/Poppins-SemiBold.ttf'),
   });
+
+  // Initialize Stripe using initStripe method
+  useEffect(() => {
+    const initializeStripe = async () => {
+      const stripePublishableKey =
+        process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
+      if (!stripePublishableKey) {
+        console.error("EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY is not set");
+        return;
+      }
+
+      try {
+        console.log("Initializing Stripe...");
+        await initStripe({
+          publishableKey: stripePublishableKey,
+          merchantIdentifier: "merchant.identifier",
+          urlScheme: "shopease",
+        });
+        console.log("Stripe initialized successfully");
+        setStripeInitialized(true);
+      } catch (error) {
+        console.error("Failed to initialize Stripe:", error);
+      }
+    };
+
+    initializeStripe();
+  }, []);
 
   // Listen to auth state changes
   useEffect(() => {
