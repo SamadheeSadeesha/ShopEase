@@ -134,12 +134,7 @@ export default function Checkout() {
   );
 
   return (
-    <StripeProvider
-      publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}
-      merchantIdentifier="merchant.identifier"
-      urlScheme="shopease"
-    >
-      <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white">
         <ScrollView className="flex-1 px-4">
           {/* Header */}
           <View className="flex-row items-center py-4">
@@ -357,6 +352,5 @@ export default function Checkout() {
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
-    </StripeProvider>
   );
 }
