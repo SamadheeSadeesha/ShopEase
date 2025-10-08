@@ -17,7 +17,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://shop-ease-mocha.vercel.app/api"
+        "EXPO_PUBLIC_API_URL": "https://shop-ease-mocha.vercel.app/api",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "@EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY"
       }
     },
     "production": {

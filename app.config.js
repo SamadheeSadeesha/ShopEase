@@ -11,49 +11,57 @@ module.exports = {
     splash: {
       image: "./assets/images/logo-white.png",
       resizeMode: "contain",
-      backgroundColor: "#BA1D84"
+      backgroundColor: "#BA1D84",
     },
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.tulu.shopease",
-      googleServicesFile: "./GoogleService-Info.plist", 
+      googleServicesFile: "./GoogleService-Info.plist",
       splash: {
         image: "./assets/images/logo-white.png",
         resizeMode: "contain",
-        backgroundColor: "#BA1D84"
-      }
+        backgroundColor: "#BA1D84",
+      },
     },
     android: {
       adaptiveIcon: {
         backgroundColor: "#BA1D84",
-        foregroundImage: "./assets/images/logo-black.png"
+        foregroundImage: "./assets/images/logo-black.png",
       },
       package: "com.tulu.shopease",
-      googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
+      googleServicesFile:
+        process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
       edgeToEdgeEnabled: true,
       predictiveBackGestureEnabled: false,
       splash: {
         image: "./assets/images/logo-white.png",
         resizeMode: "contain",
-        backgroundColor: "#BA1D84"
-      }
+        backgroundColor: "#BA1D84",
+      },
     },
     web: {
       output: "static",
       bundler: "metro",
-      favicon: "./assets/images/logo-white.png"
+      favicon: "./assets/images/logo-white.png",
     },
     plugins: [
       "expo-router",
       "@react-native-firebase/app",
-      "@react-native-firebase/auth", 
+      "@react-native-firebase/auth",
+      [
+        "@stripe/stripe-react-native",
+        {
+          merchantIdentifier: "merchant.com.tulu.shopease",
+          enableGooglePay: true,
+        },
+      ],
       [
         "expo-splash-screen",
         {
           image: "./assets/images/logo-white.png",
           resizeMode: "contain",
-          backgroundColor: "#BA1D84"
-        }
+          backgroundColor: "#BA1D84",
+        },
       ],
       "expo-secure-store",
       [
@@ -65,20 +73,20 @@ module.exports = {
             "./assets/fonts/Poppins-Light.ttf",
             "./assets/fonts/Poppins-Medium.ttf",
             "./assets/fonts/Poppins-Regular.ttf",
-            "./assets/fonts/Poppins-SemiBold.ttf"
-          ]
-        }
-      ]
+            "./assets/fonts/Poppins-SemiBold.ttf",
+          ],
+        },
+      ],
     ],
     experiments: {
       typedRoutes: true,
-      reactCompiler: true
+      reactCompiler: true,
     },
     extra: {
       router: {},
       eas: {
-        projectId: "ce937f22-5d89-4c8e-b714-2ad220fc2910"
-      }
-    }
-  }
+        projectId: "ce937f22-5d89-4c8e-b714-2ad220fc2910",
+      },
+    },
+  },
 };
